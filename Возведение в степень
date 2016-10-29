@@ -1,0 +1,20 @@
+#include <iostream>
+using namespace std;
+
+long f(long long a, long long b)
+{
+    if (b==1) return (a);
+    if (b%2==0) return (f(a*a,b/2));
+    else return (a*f(a,b-1));
+}
+
+
+int main()
+{   long long a,b,r;
+    
+    cin>>a>>b;
+    r=f(a,b);
+    
+    cout <<r<<endl;
+    return 0;
+}
