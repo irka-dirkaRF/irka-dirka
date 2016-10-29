@@ -1,3 +1,6 @@
+#include <iostream>
+using namespace std;
+
 int NPrime( int n )
 {
 int *a = new int[n + 1];
