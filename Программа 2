@@ -1,0 +1,64 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <iterator>
+
+using namespace std;
+
+
+bool isPrime(int n){ 
+	int d;
+	if (n == 1 || n == 0) 
+		return false;
+	
+	for (d = 2; d * d <= n; d++){
+	
+		if (n % d == 0)
+			return false;
+	}
+	
+	return true;
+}
+
+bool isDuplicated(vector <int> array, int n){ 
+	int k = 0;
+	for (int i = 0; i < array.size(); i++){
+		if (array[i] == n)
+			k++;
+	}
+	if (k == 0)
+		return false;
+	return true;
+}
+
+vector <int> delete_annoying_primes(vector <int> array, int length){ 
+	int i, j, k = 0;
+	vector<int> toDel; 
+	for (i = 0; i < length; i++){		
+		for (j = 0; j < length; j++){	
+			if (!isPrime(array[i]))		
+				break;
+			if (array[i] == array[j] && !isDuplicated(toDel, i) && i != j)
+				toDel.push_back(i); 
+		}
+	}
+	for (int i = 0; i < toDel.size(); i++) 
+		array[toDel[i]] = 217000; 
+	return array; 
+}
+
+void main(void){
+	vector<int> array;
+	int a;
+	cin >> a;
+	for (int i = 0; i < a; i++){ 
+		int tmp;
+		cin >> tmp;
+		array.push_back(tmp);
+	}
+	array = delete_annoying_primes(array, array.size()); 
+	for (int i = 0; i < array.size(); i++){ 
+		if (array[i] != 217000)
+			cout << array[i] << " ";
+	}
+}
