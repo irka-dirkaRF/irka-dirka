@@ -1,0 +1,33 @@
+#include<iostream> 
+#include<algorithm> 
+using namespace std; 
+
+void dig_trench(int n, int **Trench) 
+{ 
+for(int i=0; i<n; i++) 
+for(int j=0; j<n; j++) 
+Trench[i][j] = abs(i-j); 
+return ; 
+} 
+
+void print(int n, int **Trench) 
+{ 
+for(int i=0; i<n; i++){ 
+for(int j=0; j<n; j++) 
+cout«Trench[i][j]«' '; cout«endl; 
+} 
+} 
+
+int main() 
+{ 
+int n; 
+cin»n; 
+int **Trench = new int *[n]; 
+for(int i=0; i<n; i++) 
+Trench[i] = new int [n]; 
+
+dig_trench(n, Trench); 
+print(n, Trench); 
+
+return 0; 
+}
