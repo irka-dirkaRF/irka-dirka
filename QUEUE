@@ -1,0 +1,120 @@
+// Example program
+#include <iostream>
+#include <string>
+#include <map>
+using namespace std;
+
+struct Node{
+	int data;
+	Node *next;
+};
+
+class Queue{
+private:
+	Node *head;
+	int size;
+public:
+	Queue(int data){
+		head = new Node;
+		head->data = data;
+		head->next = NULL;
+	}
+
+	~Queue(){
+		while (head != NULL){
+			Node *tmp = head;
+			head = head->next;
+			delete tmp;
+		}
+	}
+
+	void push(int data){
+		if (head == NULL){
+			head = new Node;
+			head->next = NULL;
+			head->data = data;
+			return;
+		}
+		Node *index = head;
+		Node *tmp = new Node;
+		while (index->next != NULL){
+			index = index->next;
+		}
+		tmp->data = data;
+		tmp->next = NULL;
+		index->next = tmp;
+		size++;
+	}
+
+	int  pop(){
+		if (head == NULL){
+			cout << "Queue is empty";
+			return NULL;
+		}
+		if (head->next == NULL){
+			int a = head->data;
+			head = NULL;
+			size--;
+			return a;
+		}
+		Node *tmp = head;
+		head = head->next;
+		int a = tmp->data;
+		delete tmp;
+		size--;
+		return a;
+	}
+	void printAll(){
+		Node *index = head;
+		cout << "\n";
+		while (index != NULL){
+			cout << index->data << "\n";
+			index = index->next;
+		}
+	}
+};
+
+
+int main()
+{
+	map <string, int> commands;			//list of commands
+	commands["queue"] = 1;
+	commands["end"] = 2;
+	commands["push"] = 3;
+	commands["pop"] = 4;
+
+	string s;
+	Queue A(0);					//creating an empty queue
+	// this zero will be popped in "queue"-case of input
+
+	do{						//command handler
+
+		cin >> s;
+
+		int temp;
+
+		switch (commands[s]){
+
+		case 1:				// input "queue" - creating the first element of queue: 
+			// deleting temporal zero from queue
+			cin >> temp;		// and create first element from input
+			A.pop();
+			A.push(temp);
+			break;
+
+		case 2: 			// input - "end" - ending of inputting
+			break;
+
+		case 3:        			// input "push" - reading element for pushing to queue from input
+			cin >> temp;
+			A.push(temp);
+			break;
+
+		case 4:   		     	// input "pop" - writing popped from queue element to output
+			cout << A.pop() << endl;
+			break;
+		}
+	} while (s != "end");
+
+	return 0;
+}
