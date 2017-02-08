@@ -1,0 +1,118 @@
+#include <iostream>
+#include <string>
+#include <map>
+using namespace std;
+
+struct Node{
+	int data;
+	Node *next;
+};
+
+class Stack{
+private:
+	Node *head;
+	int size;
+	int begin;
+
+public:
+	Stack(int data){
+		head = new Node;
+		head->data = data;
+		head->next = NULL;
+	}
+
+	~Stack(){
+		while (head != NULL){
+			Node *tmp = head;
+			head = head->next;
+			delete tmp;
+		}
+	}
+
+	void push(int data){
+		if (head != NULL){
+			Node *tmp = new Node;
+			tmp->data = data;
+			tmp->next = head;
+			head = tmp;
+			size++;
+		}
+		else{
+			head = new Node;
+			head->next = NULL;
+			head->data = data;
+		}
+	}
+
+	int pop(){
+		if (head == NULL){
+			cout << "Stack is empty";
+			return NULL;
+		}
+
+		if (head->next != NULL){
+			Node *tmp = head;
+			head = head->next;
+			int a = tmp->data;
+			delete tmp;
+			size--;
+			return a;
+		}
+		int a = head->data;
+		head = NULL;
+		return a;
+	}
+	void printAll(){
+		Node *index = head;
+		cout << "\n";
+		while (index != NULL){
+			cout << index->data << "\n";
+			index = index->next;
+		}
+	}
+};
+
+
+int main()
+{
+	map <string, int> commands;			//list of commands
+	commands["stack"] = 1;
+	commands["end"] = 2;
+	commands["push"] = 3;
+	commands["pop"] = 4;
+
+	string s;
+	Stack A(0);					//creating an empty stack
+	// this zero will be popped in "stack"-case of input
+
+	do{						//command handler
+
+		cin >> s;
+
+		int temp;
+
+		switch (commands[s]){
+
+		case 1:				// input "stack" - creating the first element of stack: 
+			// deleting temporal zero from stack
+			cin >> temp;		// and create first element from input
+			A.pop();
+			A.push(temp);
+			break;
+
+		case 2: 			// input - "end" - ending of inputting
+			break;
+
+		case 3:        			// input "push" - reading element for pushing to stack from input
+			cin >> temp;
+			A.push(temp);
+			break;
+
+		case 4:   		     	// input "pop" - writing popped element to output
+			cout << A.pop() << endl;
+			break;
+		}
+	} while (s != "end");
+
+	return 0;
+}
