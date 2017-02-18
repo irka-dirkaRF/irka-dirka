@@ -1,0 +1,76 @@
+#include <iostream>	
+#include <cstddef>	
+
+
+class Vector {
+	            double* array;
+	            int size;
+	            int current; // last element
+
+	void add_element(int idx, double val) {
+		if (idx >= size)
+			std::cout << "Index is out of range\n";
+		else {
+			    array[idx] = val;
+			    if (idx > current)
+				  current = idx;
+		}
+	}
+
+public:
+	    Vector(int size = 1) : array(new double[size]), size(size), current(-1) {}
+
+	    Vector(Vector const &temp) : array(new double[temp.size]), size(temp.size), current(temp.current) {
+		          for (int i = 0; i <= current; ++i)
+			        array[i] = temp.array[i];
+	}
+
+      ~Vector() { delete[] array; }
+
+	    Vector &operator=(Vector const &temp) {
+	          	if (this != &temp) {
+			            delete[] array;
+			            size = temp.size;
+			            current = temp.current;
+			            for (int i = 0; i <= current; ++i)
+				                array[i] = temp.array[i];
+		}
+	        	return *this;
+	}
+
+	void push_back(double val) {
+		            if (current == size - 1) {
+			          size *= 2;
+		          	double *temp = new double[size];
+			          for (int i = 0; i <= current; ++i)
+				                  temp[i] = array[i];
+			          delete[] array;
+			          array = temp;
+		}
+		            add_element(current + 1, val);
+	}
+
+	double operator[](unsigned idx) const {
+		            if (idx > current) {
+			          std::cout << "Index is out of range\n";
+			          return 0;
+		}
+		            return array[idx];
+	}
+
+	double &operator[](unsigned idx) {
+		     if (idx >= size) {
+			   std::cout << "Index is out of range\n";
+			   return array[0];
+		}
+		     current = idx;
+		     return array[idx];
+	}
+
+	void print() {
+		    for (int i = 0; i <= current; ++i) {
+			  std::cout << array[i] << ' ';
+		} 
+		    std::cout << '\n';
+	}
+};
