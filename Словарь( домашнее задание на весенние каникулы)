@@ -1,0 +1,105 @@
+#include <iostream>
+#include <string>
+using namespace std;
+ 
+struct Node{
+	string key;
+	int data;
+	Node* next;
+	Node* prev;
+ 
+	Node(string key, int data){
+		this->key = key;
+		this->data = data;
+		this->next = NULL;
+		this->prev = NULL;
+	}
+};
+ 
+class Dict{
+private:
+	Node* head;
+	Node* end;
+	int length;
+public:
+	Dict(string key, int data){
+		head = new Node(key, data);
+		end = head;
+	}
+	~Dict(){
+		Node* tmp = head;
+		while (head != NULL){
+			tmp = head;
+			head = head->next;
+			delete tmp;
+		}
+	}
+ 
+	int add(string key, int data){
+		Node* tmp = head;
+		while (tmp != NULL){
+			if (!tmp->key.compare(key)){
+				cout <<"\n<<<  WRONG KEY  >>>";
+				throw -1;
+			}
+			tmp = tmp->next;
+		}
+		Node* node = new Node(key, data);
+		node->prev = end;
+		end->next = node;
+		end = node;
+		length++;
+		return 0;
+	}
+ 
+	void printAll(){
+		if (head == NULL){
+			cout << "Trouble!";
+			return;
+		}
+		Node* tmp = head;
+		while (tmp != NULL){
+			cout << tmp->data << " ";
+			tmp = tmp->next;
+		}
+	}
+ 
+	int deleteByKey(string key){
+		Node* del = head;
+		while (del != NULL && del->key.compare(key)){
+			del = del->next;
+		}
+		if (del == NULL){
+			cout << "\n<<< WRONG KEY  >>>";
+			throw -1;
+		}
+		Node* prev = del->prev;
+		Node* next = del->next;
+		prev->next = next;
+		next->prev = prev;
+ 
+		Node* ret = del;
+		del = NULL;
+		length--;
+		return ret->data;
+	}
+ 
+	int getByKey(string key){
+		Node* tmp = head;
+		while (tmp != NULL && tmp->key.compare(key)){
+			tmp = tmp->next;
+		}
+		return tmp->data;
+	}
+ 
+};
+ 
+int main() {
+	Dict* dict = new Dict("key", 12);
+	dict->add("kek", 36);
+	dict->add("kez", 37);
+	dict->add("kea", 34);
+	dict->printAll();
+	cout << dict->getByKey("kea");
+ 
+}
