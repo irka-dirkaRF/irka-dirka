@@ -1,0 +1,120 @@
+struct Node 
+{ int a; 
+char c; 
+Node*left,*right; 
+Node(){} 
+Node (Node*L,Node*R) 
+{left=L; 
+right=R; 
+a=L->a+R->a; 
+} 
+}; 
+struct My Compare 
+{ 
+bool operator () (Node*l,Node*r) const 
+{ 
+return l->a < r->a; 
+} 
+}; 
+void print ( Node*root,unsigned k=0) 
+{ 
+if ( root!=NULL) 
+{ print ( root->left, k+3); 
+for( insigned i=0; i<k; i++) 
+{ 
+cout«i; 
+} 
+if (root->c) cout«root->a«"("« 
+root->c«")" «endl; 
+else cout «root ->a«endl; 
+print(root->right? k+3); 
+} 
+}; 
+vector<bool>code; 
+map<char,vector<bool>table; 
+void Build Table (Node*root) 
+{ 
+if (root->left !=NULL) 
+{ 
+code. push_back(0); 
+Build Table ( root->left); 
+code. pop_back(); 
+} 
+if (root->right !=NULL) 
+{ 
+code pussh_back(1); 
+Build Table (root->right); 
+code.pop_back(); 
+} 
+if (root->c) 
+{ 
+tabl[root->c]=code; 
+} 
+} 
+int main () 
+{ 
+string s="abracadabra"; 
+map<char,int>m; 
+for (int i=0; i<s length(); i++) 
+{ 
+char c=s[i]; 
+m[c]++; 
+} 
+list<Node*>t; 
+map <char,int>::iterator i; 
+for (i=m begin(); i!=m.end();i++) 
+{ 
+Node*p=new Node; 
+p->c=i->first 
+p->a=i->second; 
+t.push_back(p); 
+} 
+while (t.size() !=1_ 
+{ 
+t.sort (My compare() ); 
+Node*SonL=t.front(); 
+t.pop-front(); 
+Node*SonR=t.front(); 
+t.pop_front() 
+Node*parent=new Node ( SonL, SonR); 
+t.push_back(parent); 
+} 
+Node*root=t.front(); 
+Build Table (root); 
+print(root); 
+map<char,vector<bool»::iterator j; 
+for( j=table.begin(); j!=table.end(); j++) 
+{ 
+vector<bool>x=table[j->first]; 
+cout« j->first«":"; 
+for ( int n=0; n<x.size(); n++) 
+{ 
+cout«x[n]; 
+} 
+cout«endl; 
+} 
+vector<bool>str 
+for (int i=0; i<s.length(); i++) 
+{ char c=s[i]; 
+vector<bool>x =table[c]; 
+for (int n=0; n<x.size(); n++0 
+{ cout«x[n]; 
+str.push_back(x[n]); 
+} 
+} cout«endl; 
+Node*rootl=t.front(); 
+Node*reader=t.front(); 
+int k=0; 
+while (k<str.size()) 
+{ 
+while (reader->left !=NULL && 
+reader->right !=NULL) 
+{ char c=str[k]; 
+if(c==1) {reader=reader->right} 
+else {reader =reader->left} 
+k++; 
+cout«reader->c; 
+reader=t.front(); 
+} 
+return 0; 
+}
