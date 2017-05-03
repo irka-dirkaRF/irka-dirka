@@ -1,0 +1,73 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+long long gcd (long long a, long long b, long long & x, long long & y) {
+    if (a==0) {
+        x=0; y=1;
+        return b;
+    }
+    long long x1, y1;
+    long long d=gcd (b%a, a, x1, y1);
+    x=y1-(b/a)*x1;
+    y=x1;
+    return d;
+}
+bool dio  (long long a, long long b,long long c, long long & x, long long & y)
+{
+    long long NOK=gcd(abs(a), abs(b), x, y);
+    if (c%NOK!=0)
+    return false ;
+    x*=c/NOK;
+    y*=c/NOK;
+    if(a<0) x*=-1;
+    if(b<0) y*=-1;
+    return true;
+}
+long long NOD ( long long min, long long max)
+{
+    long long m;
+    m=max%min;
+    
+    if (m==0)
+    {return min;}
+    
+    else 
+    {max=min;
+    min=m;}
+    
+    return NOD( min, max);
+}
+long long modular_pow(long long base, long long exponent, long long modulus)
+{ long long c=1;
+  for (long long e_prime=1; e_prime<exponent; e_prime++)
+  { c=(c*base)%modulus;}
+  return c;
+}
+int main()
+{ 
+    long long m,n,p=11,q=13,e,x,y,d,f,s;
+    n=p*q;
+    f=(p-1)*(q-1);
+    s=f/4;
+    cout<<"s="<<""<<"f="<<f<<endl;
+   for (s; s>0; s++)
+    {
+        if(NOD(s,f)==1)
+        {
+            e=s;
+            break;
+        }
+    }
+    dio (-e, f, 1, x, y);//d*e=1(modf)=>d*e=f*k+1=>d*e-f*k=1 d=x;f=-y
+    d=x+f;
+    cout<<"Vvedite soobschenie kotoroe hotite zakodirovat: ";
+    cin>>m;
+    cout<<"d="<<""<<"e="<<e<<endl;
+    
+    long long c=modular_pow(m, e, n);
+    
+    cout<<"ZACODIROVANNOE SOOBSCHENIE: "<<c<<endl;
+    cout<<"Razcodirovannoe soobschenie: "<<modular_pow(c, d, n);
+    
+    return 0;
+}
