@@ -1,0 +1,27 @@
+#include <iostream>
+using namespace std;
+ 
+void DFS(int **a, int n, int index, bool *used)
+{
+	if (used[index]) return;
+	used[index] = true;
+	for (int i=0; i<n; i++)
+		if (a[index][i] != 0 && !used[i])
+			DFS(a, n, i, used);
+}
+ 
+int main() {
+	int n;
+	cin >> n;
+	int **a = new int*[n];
+	for (int i=0; i<n; i++)
+		a[i] = new int[n];
+	for (int i=0; i<n; i++)
+		for (int j=0; j<n; j++)
+			cin >> a[i][j];
+	bool *used = new bool[n];
+	for (int i=0; i<n; i++)
+		used[i] = false;
+	DFS(a, n, 0, used);
+	return 0;
+}
